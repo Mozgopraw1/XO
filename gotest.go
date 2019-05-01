@@ -13,6 +13,9 @@ func main() {
 	// доступен ли ход в точку
 	flagIf := false
 
+
+
+
 	//Включает рандомную функцию
 	rand.Seed(time.Now().UTC().UnixNano())
 
@@ -21,31 +24,35 @@ func main() {
 
 	// значение точки для хода
 	var x int
+	// 0 ни кто не выйграл, 1 выйграл Х, 2 выйграл О
+	var flagWin int
 
 	//запуск всей игры
-	xod(xo, x, flag, flagIf)
+	xod(xo, x, flag, flagIf, &flagWin)
 }
 
 //основная функция по запуску игры
-func xod(xo []int, x int, flag bool, flagIf bool) {
+func xod(xo []int, x int, flag bool, flagIf bool, flagWin *int) {
 	for i := 0; i <= 8; i++ {
 		x = rand.Intn(8) // рандомная цифра от 0 до 8
 
 		xoVariant(x, xo, flagIf, flag)  // проверка хода
-		//xoStageAssign(&xo, x, flag)   // функция присвоения
-		vievXo(xo, flag, flagIf, x)     // показ поля
+		vievXo(xo)     // показ поля
+		win(xo, flagWin)
 		flag1(&flag) 					// смена стороны
+		if *flagWin != 0 {
+			fmt.Println("Действительно выйграл, выходим")
+			return
+		}
 	}
 }
 
 //вывод поля
-func vievXo(xo []int, flag bool, flagIf bool, x int) {
+func vievXo(xo []int) {
 	fmt.Println(xo[0], xo[1], xo[2])
 	fmt.Println(xo[3], xo[4], xo[5])
 	fmt.Println(xo[6], xo[7], xo[8])
 	fmt.Println(" ")
-
-	fmt.Println(flag, flagIf, x)
 }
 
 //смена хода
@@ -65,11 +72,8 @@ func xoVariant(x int, xo []int, flagIf bool, flag bool) {
 }
 
 // проверка был ли уже ход в данной точке
-// я запутался в указателях именно тут, все тесты показывают что X - как точка куда ставится X или O
-// не меняется вне функции и в последующей функции, но в самой функции вроде как меняется (вроде даже в xoCorDop тоже)
 func xoCor(xo []int, x int, flagIf *bool, flag bool) {
 	for i:=0; i<=2; i++ {
-		fmt.Println("тест 1", x)
 		if xo[x] == 0 {
 			*flagIf = true
 			if flag{ //ход X
@@ -82,21 +86,43 @@ func xoCor(xo []int, x int, flagIf *bool, flag bool) {
 		}
 		if !*flagIf {
 			x = rand.Intn(9) // сразу даёт рандомное значение
-			fmt.Println("тест 2", x)
 			i = 0
 		}
 	}
 }
 
-
-
-//функция присвоения значения проверки
-/*func xoStageAssign(xo *[]int, x *int, flag bool) {
-	if flag{ //ход X
-		xo[x] = 1
+//проверка совпадений линий
+func win(xo []int, flagWin *int) {
+	for i:=1; i<=2; i++ {
+		if xo[0]&xo [1]&xo[2] == i {
+			*flagWin = i
+		}
+		if xo[3]&xo [4]&xo[5] == i {
+			*flagWin = i
+		}
+		if xo[6]&xo [7]&xo[8] == i {
+			*flagWin = i
+		}
+		if xo[0]&xo [3]&xo[6] == i {
+			*flagWin = i
+		}
+		if xo[1]&xo [4]&xo[7] == i {
+			*flagWin = i
+		}
+		if xo[2]&xo [5]&xo[8] == i {
+			*flagWin = i
+		}
+		if xo[0]&xo [4]&xo[8] == i {
+			*flagWin = i
+		}
+		if xo[2]&xo [4]&xo[6] == i {
+			*flagWin = i
+		}
 	}
-	if !flag{ //ход O
-		xo[*x] = 2
+	if *flagWin == 1 {
+		fmt.Println("Победа X")
+	}
+	if *flagWin == 2 {
+		fmt.Println("Победа O")
 	}
 }
-*/
