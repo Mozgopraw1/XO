@@ -28,12 +28,12 @@ func main() {
 
 //основная функция по запуску игры
 func xod(xo []int, x int, flag bool, flagIf bool) {
-	for i := 0; i <= 7; i++ {
+	for i := 0; i <= 8; i++ {
 		x = rand.Intn(8) // рандомная цифра от 0 до 8
 
-		xoVariant(x, xo, flagIf, flag) // проверка хода
-		//xoStageAssign(&xo, x, flag)     // функция присвоения
-		vievXo(xo, flag, flagIf, x)    // показ поля
+		xoVariant(x, xo, flagIf, flag)  // проверка хода
+		//xoStageAssign(&xo, x, flag)   // функция присвоения
+		vievXo(xo, flag, flagIf, x)     // показ поля
 		flag1(&flag) 					// смена стороны
 	}
 }
@@ -81,7 +81,7 @@ func xoCor(xo []int, x int, flagIf *bool, flag bool) {
 			i = 3
 		}
 		if !*flagIf {
-			x = rand.Intn(8) // сразу даёт рандомное значение
+			x = rand.Intn(9) // сразу даёт рандомное значение
 			fmt.Println("тест 2", x)
 			i = 0
 		}
