@@ -18,6 +18,8 @@ func main() {
 	var game int
 	newGame(&game)
 
+	dt := time.Now()
+
 
 	//Включает рандомную функцию
 	rand.Seed(time.Now().UTC().UnixNano())
@@ -45,6 +47,8 @@ func main() {
 	fmt.Println("X:     ", Xwin)
 	fmt.Println("O:     ", Owin)
 	fmt.Println("Ничья: ", NoWin)
+	dt1 := time.Now()
+	fmt.Println("Затраченное время на вычисление: ", dt1.Sub(dt))
 	}
 
 //основная функция по запуску игры
