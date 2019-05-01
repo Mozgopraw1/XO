@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"os"
+	"strconv"
 	"time"
 )
 
@@ -13,7 +15,8 @@ func main() {
 	// доступен ли ход в точку
 	flagIf := false
 
-
+	var game int
+	newGame(&game)
 
 
 	//Включает рандомную функцию
@@ -27,23 +30,39 @@ func main() {
 	// 0 ни кто не выйграл, 1 выйграл Х, 2 выйграл О
 	var flagWin int
 
+	//сколько побед
+	Xwin := 0
+	Owin := 0
+	NoWin := 0
+
 	//запуск всей игры
-	xod(xo, x, flag, flagIf, &flagWin)
-}
+	for i:=1; i<=game; i++ {
+		xo = make([]int, 9)
+		xod(xo, x, flag, flagIf, &flagWin, &NoWin, &Xwin, &Owin)
+	}
+
+	fmt.Println("Общий результат:")
+	fmt.Println("X:     ", Xwin)
+	fmt.Println("O:     ", Owin)
+	fmt.Println("Ничья: ", NoWin)
+	}
 
 //основная функция по запуску игры
-func xod(xo []int, x int, flag bool, flagIf bool, flagWin *int) {
+func xod(xo []int, x int, flag bool, flagIf bool, flagWin *int, NoWin *int, Xwin *int, Owin *int) {
 	for i := 0; i <= 8; i++ {
 		x = rand.Intn(8) // рандомная цифра от 0 до 8
 
 		xoVariant(x, xo, flagIf, flag)  // проверка хода
 		vievXo(xo)     // показ поля
-		win(xo, flagWin)
+		win(xo, flagWin, Xwin, Owin)
 		flag1(&flag) 					// смена стороны
 		if *flagWin != 0 {
 			fmt.Println("Действительно выйграл, выходим")
-			return
+			i = 9
+			*flagWin = 0 //сброс значения
 		}
+		if *flagWin == 0 && i==8 { fmt.Println("Похоже ни кто не выйграл")
+		*NoWin++} //проверка на ничью
 	}
 }
 
@@ -92,7 +111,7 @@ func xoCor(xo []int, x int, flagIf *bool, flag bool) {
 }
 
 //проверка совпадений линий
-func win(xo []int, flagWin *int) {
+func win(xo []int, flagWin *int, Xwin *int, Owin *int) {
 	for i:=1; i<=2; i++ {
 		if xo[0]&xo [1]&xo[2] == i {
 			*flagWin = i
@@ -121,8 +140,22 @@ func win(xo []int, flagWin *int) {
 	}
 	if *flagWin == 1 {
 		fmt.Println("Победа X")
+		*Xwin++
 	}
 	if *flagWin == 2 {
 		fmt.Println("Победа O")
+		*Owin++
+	}
+}
+
+func newGame(game *int) {
+	fmt.Println("Приветствую тебя в игре XO, сколько желаешь сыграть партий?")
+	var st string
+
+	fmt.Fscan(os.Stdin, &st)
+
+	i1, err := strconv.Atoi(st)
+	if err == nil {
+		*game = i1
 	}
 }
