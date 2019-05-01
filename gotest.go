@@ -28,12 +28,12 @@ func main() {
 
 //основная функция по запуску игры
 func xod(xo []int, x int, flag bool, flagIf bool) {
-	for i := 0; i <= 8; i++ {
-		x = rand.Intn(8)            // рандомная цифра от 0 до 8
-		vievXo(xo, flag, flagIf, x)    // показ поля
-		xoVariant(flag, x, xo, flagIf) // проверка хода
-		xoStageAssign(xo, x, flag)     // функция присвоения
+	for i := 0; i <= 7; i++ {
+		x = rand.Intn(8) // рандомная цифра от 0 до 8
 
+		xoVariant(x, xo, flagIf, flag) // проверка хода
+		//xoStageAssign(&xo, x, flag)     // функция присвоения
+		vievXo(xo, flag, flagIf, x)    // показ поля
 		flag1(&flag) 					// смена стороны
 	}
 }
@@ -59,44 +59,44 @@ func flag1(flag *bool) {
 
 // ход на поле
 // проверка чей ход
-func xoVariant(flag bool, x int, xo []int, flagIf bool) {
-	// X ход
-	if flag{
-		xoCor(xo, &x, &flagIf)
+func xoVariant(x int, xo []int, flagIf bool, flag bool) {
+		xoCor(xo, x, &flagIf, flag)
 		flagIf = false
-	}
-	// O ход
-	if flag{
-		xoCor(xo, &x, &flagIf)
-		flagIf = false
-	}
 }
 
 // проверка был ли уже ход в данной точке
 // я запутался в указателях именно тут, все тесты показывают что X - как точка куда ставится X или O
 // не меняется вне функции и в последующей функции, но в самой функции вроде как меняется (вроде даже в xoCorDop тоже)
-func xoCor(xo []int, x *int, flagIf *bool) {
-	if xo[*x] == 0 {
-		*flagIf = true
-	}
-	if !*flagIf {
-		xoCorDop(xo, x, flagIf)
+func xoCor(xo []int, x int, flagIf *bool, flag bool) {
+	for i:=0; i<=2; i++ {
+		fmt.Println("тест 1", x)
+		if xo[x] == 0 {
+			*flagIf = true
+			if flag{ //ход X
+				xo[x] = 1
+			}
+			if !flag{ //ход O
+				xo[x] = 2
+			}
+			i = 3
+		}
+		if !*flagIf {
+			x = rand.Intn(8) // сразу даёт рандомное значение
+			fmt.Println("тест 2", x)
+			i = 0
+		}
 	}
 }
 
-// если точка уже занята
-func xoCorDop(xo []int, x *int, flagIf *bool) {
-	*flagIf = false
-	*x = rand.Intn(8) // сразу даёт рандомное значение
-	xoCor(xo, x, flagIf)
-}
+
 
 //функция присвоения значения проверки
-func xoStageAssign(xo []int, x int, flag bool) {
+/*func xoStageAssign(xo *[]int, x *int, flag bool) {
 	if flag{ //ход X
 		xo[x] = 1
 	}
 	if !flag{ //ход O
-		xo[x] = 2
+		xo[*x] = 2
 	}
 }
+*/
