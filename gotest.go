@@ -3,14 +3,14 @@ package main
 import (
 	"fmt"
 	"math/rand"
-	"os"
-	"strconv"
 	"time"
 )
 
 // REVIEW: зачем ты вообще комментируешь неэкспортированные
 //  функции? Хотя, это не запрещено, но зачем? И если
 //  комментируешь, делай это правильно!
+
+// Понял, буду пытаться коментировать как нужно
 
 // REVIEW: коментарии в коде должны комментировать что-то
 //  действительно неочевидное. Комментировать простейшие
@@ -21,26 +21,28 @@ import (
 //  глубоко в стек вызовов, это создаёт разрыв контекста и
 //  сильно усложняет чтение.
 
+// Хорошо
+
 func main() {
-	// ход игрока; true == x; false o == false
+	// ход игрока; true == x; false == o;
 	flag := true
 
-	// доступен ли ход в точку
+	// флаг свободной точки.
 	flagIf := false
 
+	// количество партий которые хочет сыграть игрок
 	var game int
 	newGame(&game)
+
+	//узнаёт время в данный момент
 	dt := time.Now()
 
 	//Включает рандомную функцию
 	rand.Seed(time.Now().UTC().UnixNano())
 
-	// создание массива
-	// REVIEW: зачем это, если в цикле ниже ты делаешь тоже самое?
-	xo := make([]int, 9)
-
 	// значение точки для хода
 	var x int
+
 	// 0 ни кто не выйграл, 1 выйграл Х, 2 выйграл О
 	var flagWin int
 
@@ -48,12 +50,15 @@ func main() {
 	Xwin := 0
 	Owin := 0
 	NoWin := 0
+	var xo []int
 
 	//запуск всей игры
 	for i := 1; i <= game; i++ {
 		xo = make([]int, 9)
 		// REVIEW: здесь у тебя flag, flagIf всегда == true, зачем их передавать переменными?
-		xod(xo, x, flag, flagIf, &flagWin, &NoWin, &Xwin, &Owin)
+
+		// немного не понял  в каком смысле flag, flagIf всегда true? изначально они flag == true, flagIf == false
+		xod(xo, x, &flag, &flagIf, &flagWin, &NoWin, &Xwin, &Owin)
 	}
 
 	fmt.Println("Общий результат:")
@@ -73,16 +78,16 @@ func main() {
 // REVIEW: когда в функцию передаётся столько параметров, это
 //  убивает возможность сделать тест для функции; это ухудшает
 //  читаемость и (!!) контроль над кодом.
-func xod(xo []int, x int, flag bool, flagIf bool, flagWin *int, NoWin *int, Xwin *int, Owin *int) {
+func xod(xo []int, x int, flag *bool, flagIf *bool, flagWin *int, NoWin *int, Xwin *int, Owin *int) {
 	for i := 0; i <= 8; i++ {
 		// REVIEW: вот переназначение x; зачем ты
 		//  его вообще тогда в функцию передавал?
 		x = rand.Intn(8) // рандомная цифра от 0 до 8
 
-		xoVariant(x, xo, flagIf, flag) // проверка хода
+		xoVariant(x, xo, *flagIf, *flag) // проверка хода
 		vievXo(xo)                     // показ поля
 		win(xo, flagWin, Xwin, Owin)
-		flag1(&flag) // смена стороны
+		flag1(flag) // смена стороны
 		if *flagWin != 0 {
 			fmt.Println("Действительно выйграл, выходим")
 			i = 9
@@ -190,13 +195,17 @@ func win(xo []int, flagWin *int, Xwin *int, Owin *int) {
 
 func newGame(game *int) {
 	fmt.Println("Приветствую тебя в игре XO, сколько желаешь сыграть партий?")
-	var st string
+	//var st string
 
 	// REVIEW: необработанное исключение!
-	fmt.Fscan(os.Stdin, &st)
+
+	//перестала работать на моём ПК
+	/*fmt.Fscan(os.Stdin, &st)
 
 	i1, err := strconv.Atoi(st)
 	if err == nil {
 		*game = i1
 	}
+	*/
+	*game = 1
 }
