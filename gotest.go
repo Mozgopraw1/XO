@@ -40,9 +40,6 @@ func main() {
 	//Включает рандомную функцию
 	rand.Seed(time.Now().UTC().UnixNano())
 
-	// значение точки для хода
-	var x int
-
 	// 0 ни кто не выйграл, 1 выйграл Х, 2 выйграл О
 	var flagWin int
 
@@ -50,15 +47,14 @@ func main() {
 	Xwin := 0
 	Owin := 0
 	NoWin := 0
-	var xo []int
 
 	//запуск всей игры
 	for i := 1; i <= game; i++ {
-		xo = make([]int, 9)
+		xo := make([]int, 9)
 		// REVIEW: здесь у тебя flag, flagIf всегда == true, зачем их передавать переменными?
 
-		// немного не понял  в каком смысле flag, flagIf всегда true? изначально они flag == true, flagIf == false
-		xod(xo, x, &flag, &flagIf, &flagWin, &NoWin, &Xwin, &Owin)
+		// я не уверен, но походу это влияло на процент побед, но я не уверен, поставил указатели.
+		xod(xo, &flag, &flagIf, &flagWin, &NoWin, &Xwin, &Owin)
 	}
 
 	fmt.Println("Общий результат:")
@@ -78,14 +74,16 @@ func main() {
 // REVIEW: когда в функцию передаётся столько параметров, это
 //  убивает возможность сделать тест для функции; это ухудшает
 //  читаемость и (!!) контроль над кодом.
-func xod(xo []int, x int, flag *bool, flagIf *bool, flagWin *int, NoWin *int, Xwin *int, Owin *int) {
+func xod(xo []int, flag *bool, flagIf *bool, flagWin *int, NoWin *int, Xwin *int, Owin *int) {
 	for i := 0; i <= 8; i++ {
 		// REVIEW: вот переназначение x; зачем ты
-		//  его вообще тогда в функцию передавал?
-		x = rand.Intn(8) // рандомная цифра от 0 до 8
+		// убрал X сверху
+
+		//X == координата точки на поле
+		x := rand.Intn(8) // рандомная цифра от 0 до 8
 
 		xoVariant(x, xo, *flagIf, *flag) // проверка хода
-		vievXo(xo)                     // показ поля
+		viewXo(xo)                     // показ поля
 		win(xo, flagWin, Xwin, Owin)
 		flag1(flag) // смена стороны
 		if *flagWin != 0 {
@@ -102,7 +100,8 @@ func xod(xo []int, x int, flag *bool, flagIf *bool, flagWin *int, NoWin *int, Xw
 
 //вывод поля
 // REVIEW: опечатка в английском слове в названии функции
-func vievXo(xo []int) {
+// исправил
+func viewXo(xo []int) {
 	fmt.Println(xo[0], xo[1], xo[2])
 	fmt.Println(xo[3], xo[4], xo[5])
 	fmt.Println(xo[6], xo[7], xo[8])
@@ -131,7 +130,8 @@ func xoCor(xo []int, x int, flagIf *bool, flag bool) {
 	for i := 0; i <= 2; i++ {
 		if xo[x] == 0 {
 			*flagIf = true
-			i = f(flag, xo, x, i)
+			i = 5
+				f(flag, xo, x, i)
 		}
 		if !*flagIf {
 			x = rand.Intn(9) // сразу даёт рандомное значение
@@ -207,5 +207,5 @@ func newGame(game *int) {
 		*game = i1
 	}
 	*/
-	*game = 1
+	*game = 10000
 }
