@@ -30,7 +30,6 @@ func main() {
 
 	var game int
 	newGame(&game)
-
 	dt := time.Now()
 
 	//Включает рандомную функцию
