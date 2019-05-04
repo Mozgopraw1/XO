@@ -1,6 +1,7 @@
 package main
 
 import (
+	"debug/elf"
 	"fmt"
 	"math/rand"
 	"time"
@@ -202,17 +203,13 @@ func win(xo []int, flagWin *int, Xwin *int, Owin *int) {
 	}
 }
 // winGorriz == выйгрыш по горизонтали
-func winGoriz() {
+func winGoriz(rx int, xo []int, check1 int) {
 	for i := 0; i <= rx; i++ {
 		for k := 0; k <= rx; i++ {
-			if xo[k]
+			if xo[k] == 1 {check1++}
 		}
-
-
-		if xo[i] == 1 {
-			*flagWin = 1
-			rav++
-		}
+		check1 = 0
+		a := +rx
 	}
 }
 
