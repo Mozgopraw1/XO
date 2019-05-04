@@ -25,21 +25,40 @@ func main() {
 		xo[8] = 1
 		var check1 int
 		//выполнения функции
-		winGoriz(rx, xo, check1) }
+		flagWin := winGoriz(rx, xo, check1)
+		fmt.Println(flagWin)
+	}
 }
 
 //winGoriz == выполнение сравнений по горизонтали на выйгрыш
-func winGoriz(rx int, xo []int, check1 int){
+func winGoriz(rx int, xo []int, check1 int)int{
 	a := 0
 	for i := 0; i <= rx-1; i++ {
 		for k := 0; k <= rx-1; k++ {
 			if xo[a] == 1 {check1++}
 			a++
+			//НЕТ
+			fmt.Println("a: ", a)
+		}
+		fmt.Println(check1)
+		if check1 == rx {
+			check1 = 0
+			return 1
 		}
 		//НЕТ, показывает список
-		for l:=1; l<=(rx*rx)-1; l++ {fmt.Print(xo[l])}
-
-		 if check1 == rx-1 {fmt.Println("равно check1 = ", check1, ", rx-1 = ", rx-1)}
-		check1 = 0
+		viewXo(xo, rx)
 	}
+	return 0
+}
+
+func viewXo(xo []int, rx int) {
+	t := 0
+	for i:=0; i<=rx-1; i++ {
+		for k:=0; k<=rx-1; k++ {
+			fmt.Print(xo[t], " ")
+			t++
+		}
+		fmt.Println(" ")
+	}
+	fmt.Println(" ")
 }

@@ -105,7 +105,7 @@ func xod(xo []int, flag *bool, flagIf *bool, flagWin *int, NoWin *int, Xwin *int
 //вывод поля
 // REVIEW: опечатка в английском слове в названии функции
 // исправил
-func viewXo(xo []int, rx int, x int) {
+func viewXo(xo []int, rx int) {
 	t := 0
 	for i:=0; i<=rx-1; i++ {
 		for k:=0; k<=rx-1; k++ {
