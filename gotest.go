@@ -24,6 +24,7 @@ import (
 // Хорошо
 
 func main() {
+	// длина стороны поля
 	rx := 3
 
 	// ход игрока; true == x; false == o;
@@ -52,7 +53,7 @@ func main() {
 
 	//запуск всей игры
 	for i := 1; i <= game; i++ {
-		xo := make([]int, 9)
+		xo := make([]int, rx*rx)
 		// REVIEW: здесь у тебя flag, flagIf всегда == true, зачем их передавать переменными?
 
 		// я не уверен, но походу это влияло на процент побед, но я не уверен, поставил указатели.
@@ -112,10 +113,6 @@ func viewXo(xo []int, rx int, x int) {
 		}
 		fmt.Println(" ")
 	}
-
-	fmt.Println(xo[0], xo[1], xo[2])
-	fmt.Println(xo[3], xo[4], xo[5])
-	fmt.Println(xo[6], xo[7], xo[8])
 	fmt.Println(" ")
 }
 
@@ -204,16 +201,21 @@ func win(xo []int, flagWin *int, Xwin *int, Owin *int) {
 		*Owin++
 	}
 }
-/*
-func WinT() {
-	for i := newR; i <= r; i++ {
+// winGorriz == выйгрыш по горизонтали
+func winGoriz() {
+	for i := 0; i <= rx; i++ {
+		for k := 0; k <= rx; i++ {
+			if xo[k]
+		}
+
+
 		if xo[i] == 1 {
 			*flagWin = 1
 			rav++
 		}
 	}
 }
-*/
+
 
 func newGame(game *int) {
 	fmt.Println("Приветствую тебя в игре XO, сколько желаешь сыграть партий?")
