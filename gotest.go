@@ -24,6 +24,8 @@ import (
 // Хорошо
 
 func main() {
+	rx := 3
+
 	// ход игрока; true == x; false == o;
 	flag := true
 
@@ -54,7 +56,7 @@ func main() {
 		// REVIEW: здесь у тебя flag, flagIf всегда == true, зачем их передавать переменными?
 
 		// я не уверен, но походу это влияло на процент побед, но я не уверен, поставил указатели.
-		xod(xo, &flag, &flagIf, &flagWin, &NoWin, &Xwin, &Owin)
+		xod(xo, &flag, &flagIf, &flagWin, &NoWin, &Xwin, &Owin, rx)
 	}
 
 	fmt.Println("Общий результат:")
@@ -74,7 +76,7 @@ func main() {
 // REVIEW: когда в функцию передаётся столько параметров, это
 //  убивает возможность сделать тест для функции; это ухудшает
 //  читаемость и (!!) контроль над кодом.
-func xod(xo []int, flag *bool, flagIf *bool, flagWin *int, NoWin *int, Xwin *int, Owin *int) {
+func xod(xo []int, flag *bool, flagIf *bool, flagWin *int, NoWin *int, Xwin *int, Owin *int, rx int) {
 	for i := 0; i <= 8; i++ {
 		// REVIEW: вот переназначение x; зачем ты
 		// убрал X сверху
@@ -83,7 +85,7 @@ func xod(xo []int, flag *bool, flagIf *bool, flagWin *int, NoWin *int, Xwin *int
 		x := rand.Intn(8) // рандомная цифра от 0 до 8
 
 		xoVariant(x, xo, *flagIf, *flag) // проверка хода
-		viewXo(xo)                     // показ поля
+		viewXo(xo, rx, x)                     // показ поля
 		win(xo, flagWin, Xwin, Owin)
 		flag1(flag) // смена стороны
 		if *flagWin != 0 {
@@ -101,7 +103,16 @@ func xod(xo []int, flag *bool, flagIf *bool, flagWin *int, NoWin *int, Xwin *int
 //вывод поля
 // REVIEW: опечатка в английском слове в названии функции
 // исправил
-func viewXo(xo []int) {
+func viewXo(xo []int, rx int, x int) {
+	t := 0
+	for i:=0; i<=rx-1; i++ {
+		for k:=0; k<=rx-1; k++ {
+			fmt.Print(xo[t], " ")
+			t++
+		}
+		fmt.Println(" ")
+	}
+
 	fmt.Println(xo[0], xo[1], xo[2])
 	fmt.Println(xo[3], xo[4], xo[5])
 	fmt.Println(xo[6], xo[7], xo[8])
@@ -126,29 +137,29 @@ func xoVariant(x int, xo []int, flagIf bool, flag bool) {
 
 // проверка был ли уже ход в данной точке
 // REVIEW: высокая цикломатика (6, надо 5 и меньше)
+// не знаю как цикломатику уменьшить в данном случае, описал подробно каждую строку кода тут
 func xoCor(xo []int, x int, flagIf *bool, flag bool) {
-	for i := 0; i <= 2; i++ {
+	for i := 0; i <= 2; i++ { // повторяет цикл бесконечно пока точка на пале не будет пустой
 		if xo[x] == 0 {
-			*flagIf = true
-			i = 5
-				f(flag, xo, x, i)
+			*flagIf = true // true == подтверждение пустой точки
+			i = 5 // чтоб окончился цикл
+			f(flag, xo, x) // присвоение точке значения 1 или 2
 		}
 		if !*flagIf {
 			x = rand.Intn(9) // сразу даёт рандомное значение
-			i = 0
+			i = 0 // для повторения цикла
 		}
 	}
 }
 
-func f(flag bool, xo []int, x int, i int) int {
+//f == присвоение точки на поле значение X или O
+func f(flag bool, xo []int, x int) {
 	if flag { //ход X
 		xo[x] = 1
 	}
 	if !flag { //ход O
 		xo[x] = 2
 	}
-	i = 3
-	return i
 }
 
 //проверка совпадений линий
@@ -156,6 +167,7 @@ func f(flag bool, xo []int, x int, i int) int {
 // REVIEW: зачем Xwin и Owin с заглавной? Названияя
 //  параметров должны быть с нижнего регистра и это
 //  не единственное место.
+
 func win(xo []int, flagWin *int, Xwin *int, Owin *int) {
 	for i := 1; i <= 2; i++ {
 		if xo[0]&xo[1]&xo[2] == i {
@@ -192,6 +204,16 @@ func win(xo []int, flagWin *int, Xwin *int, Owin *int) {
 		*Owin++
 	}
 }
+/*
+func WinT() {
+	for i := newR; i <= r; i++ {
+		if xo[i] == 1 {
+			*flagWin = 1
+			rav++
+		}
+	}
+}
+*/
 
 func newGame(game *int) {
 	fmt.Println("Приветствую тебя в игре XO, сколько желаешь сыграть партий?")
@@ -207,5 +229,5 @@ func newGame(game *int) {
 		*game = i1
 	}
 	*/
-	*game = 10000
+	*game = 10
 }
