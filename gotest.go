@@ -1,7 +1,6 @@
 package main
 
 import (
-	"debug/elf"
 	"fmt"
 	"math/rand"
 	"time"
@@ -87,7 +86,7 @@ func xod(xo []int, flag *bool, flagIf *bool, flagWin *int, NoWin *int, Xwin *int
 		x := rand.Intn(8) // рандомная цифра от 0 до 8
 
 		xoVariant(x, xo, *flagIf, *flag) // проверка хода
-		viewXo(xo, rx, x)                     // показ поля
+		viewXo(xo, rx)                     // показ поля
 		win(xo, flagWin, Xwin, Owin)
 		flag1(flag) // смена стороны
 		if *flagWin != 0 {
@@ -203,7 +202,7 @@ func win(xo []int, flagWin *int, Xwin *int, Owin *int) {
 	}
 }
 // winGorriz == выйгрыш по горизонтали
-func winGoriz(rx int, xo []int, check1 int) {
+/*func winGoriz(rx int, xo []int, check1 int) {
 	for i := 0; i <= rx; i++ {
 		for k := 0; k <= rx; i++ {
 			if xo[k] == 1 {check1++}
@@ -212,7 +211,7 @@ func winGoriz(rx int, xo []int, check1 int) {
 		a := +rx
 	}
 }
-
+*/
 
 func newGame(game *int) {
 	fmt.Println("Приветствую тебя в игре XO, сколько желаешь сыграть партий?")
@@ -228,5 +227,5 @@ func newGame(game *int) {
 		*game = i1
 	}
 	*/
-	*game = 10
+	*game = 100000
 }
