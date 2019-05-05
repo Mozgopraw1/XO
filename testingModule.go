@@ -25,8 +25,10 @@ func main() {
 		xo[8] = 1
 		var check1 int
 		//выполнения функции
-		flagWin := winGoriz(rx, xo, check1)
-		fmt.Println(flagWin)
+		//flagWinG := winGoriz(rx, xo, check1)
+		//fmt.Println(flagWinG)
+		flagWinV := winVertic(rx, xo, check1)
+		fmt.Println("flagWinV: ", flagWinV)
 	}
 }
 
@@ -42,10 +44,31 @@ func winGoriz(rx int, xo []int, check1 int)int{
 		}
 		fmt.Println(check1)
 		if check1 == rx {
-			check1 = 0
 			return 1
 		}
+		check1 = 0
 		//НЕТ, показывает список
+		viewXo(xo, rx)
+	}
+	return 0
+}
+
+//winVertic == выполнение сравнений по вертикали на выйгрыш
+func winVertic(rx int, xo []int, check1 int)int{
+	a := 0
+	for i:= 0; i <= rx-1; i++ {
+		for k :=0; k <= rx-1; k++ {
+			if xo[a] == 1 {check1++}
+
+			//НЕТ
+			fmt.Println("a: ", a, "check1: ", check1)
+			a = a+3
+		}
+		if check1 == rx {
+			return 1
+		}
+		check1 = 0
+		a = i+1
 		viewXo(xo, rx)
 	}
 	return 0
