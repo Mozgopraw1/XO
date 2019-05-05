@@ -62,7 +62,7 @@ func winVertic(rx int, xo []int, check1 int)int{
 
 			//НЕТ
 			fmt.Println("a: ", a, "check1: ", check1)
-			a = a+3
+			a = a+rx
 		}
 		if check1 == rx {
 			return 1
@@ -73,6 +73,11 @@ func winVertic(rx int, xo []int, check1 int)int{
 	}
 	return 0
 }
+
+//winDiag == выполнение
+//func winDiag(rx int, xo []int, check1 int)int{
+
+//}
 
 func viewXo(xo []int, rx int) {
 	t := 0
