@@ -92,11 +92,11 @@ func winDiag1(rx int, xo []int, check1 int)int{
 	return 0
 }
 
+//winDiag2 == выполнение сравнения по диагоналис сверху в низ справа на лево
 func winDiag2 (rx int, xo []int, check1 int)int{
 	a := rx-1
 	for i:=0; i <=rx-1; i++ {
 		if xo[a] == 1 {check1++}
-
 		a = a+rx-1
 	}
 	if check1 == rx {
@@ -106,6 +106,8 @@ func winDiag2 (rx int, xo []int, check1 int)int{
 	viewXo(xo, rx)
 	return 0
 }
+
+
 
 func viewXo(xo []int, rx int) {
 	t := 0
