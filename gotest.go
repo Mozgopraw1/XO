@@ -26,7 +26,9 @@ import (
 func main() {
 	// длина стороны поля
 	rx := 3
+	type OneSt struct {
 
+	}
 	// ход игрока; true == x; false == o;
 	flag := true
 
@@ -71,12 +73,12 @@ func xod(xo []int, flag *bool, flagIf *bool, flagWin *int, NoWin *int, Xwin *int
 	for i := 0; i <= 8; i++ {
 
 		//X == координата точки на поле
-		x := rand.Intn(8) 			 // рандомная цифра от 0 до 8
+		x := rand.Intn(8) // рандомная цифра от 0 до 8
 
 		xoVariant(x, xo, *flagIf, *flag) // проверка хода
 		viewXo(xo, rx)                   // показ поля
-		win(xo, flagWin, Xwin, Owin)	 // проверка по вертикали, горизонтали, диагонали на выйгрышь
-		playerMove(flag) 				 // смена стороны
+		win(xo, flagWin, Xwin, Owin)     // проверка по вертикали, горизонтали, диагонали на выйгрышь
+		playerMove(flag)                 // смена стороны
 		// проверка на ничью, и сброс флага выйгрыша для начала новой партии
 		if *flagWin != 0 {
 			fmt.Println("Действительно выйграл, выходим")
@@ -93,8 +95,8 @@ func xod(xo []int, flag *bool, flagIf *bool, flagWin *int, NoWin *int, Xwin *int
 //viewXo == вывод поля в консоль
 func viewXo(xo []int, rx int) {
 	t := 0
-	for i:=0; i<=rx-1; i++ {
-		for k:=0; k<=rx-1; k++ {
+	for i := 0; i <= rx-1; i++ {
+		for k := 0; k <= rx-1; k++ {
 			fmt.Print(xo[t], " ")
 			t++
 		}
@@ -123,15 +125,15 @@ func xoVariant(x int, xo []int, flagIf bool, flag bool) {
 // REVIEW: высокая цикломатика (6, надо 5 и меньше)
 // не знаю как цикломатику уменьшить в данном случае, описал подробно каждую строку кода тут
 func xoCor(xo []int, x int, flagIf *bool, flag bool) {
-	for i := 0; i <= 2; i++ { // повторяет цикл бесконечно пока точка на пале не будет пустой
+	for i := 0; i <= 2; i++ { // повторяет цикл бесконечно пока точка на поле не будет пустой
 		if xo[x] == 0 {
 			*flagIf = true // true == подтверждение пустой точки
-			i = 5 // чтоб окончился цикл
+			i = 5          // чтоб окончился цикл
 			f(flag, xo, x) // присвоение точке значения 1 или 2
 		}
 		if !*flagIf {
 			x = rand.Intn(9) // сразу даёт рандомное значение
-			i = 0 // для повторения цикла
+			i = 0            // для повторения цикла
 		}
 	}
 }
@@ -188,6 +190,28 @@ func win(xo []int, flagWin *int, Xwin *int, Owin *int) {
 		*Owin++
 	}
 }
+
+//winVertic == выполнение сравнений по вертикали на выйгрыш
+func winVertic(rx int, xo []int, check1 int)int{
+	a := 0
+	for i:= 0; i <= rx-1; i++ {
+		for k :=0; k <= rx-1; k++ {
+			if xo[a] == 1 {check1++}
+
+			//НЕТ
+			fmt.Println("a: ", a, "check1: ", check1)
+			a = a+rx
+		}
+		if check1 == rx {
+			return 1
+		}
+		check1 = 0
+		a = i+1
+		viewXo(xo, rx)
+	}
+	return 0
+}
+
 // winGorriz == выйгрыш по горизонтали
 /*func winGoriz(rx int, xo []int, check1 int) {
 	for i := 0; i <= rx; i++ {
@@ -214,5 +238,5 @@ func newGame(game *int) {
 		*game = i1
 	}
 	*/
-	*game = 100000
+	*game = 100
 }
