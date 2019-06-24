@@ -29,24 +29,23 @@ type strData struct {
 	check1 int	// == временная перемення в winD,V,G
 	unit int // == крестик или нолик (1 или 2)
 	winF int // == win передача флага об проверке
+	flagIf bool // == флаг свободной точки
+	flagWin int // == 0 ни кто не выйграл, 1 выйграл Х, 2 выйграл О
+	xWin int // == количество побед X
+	oWin int // == количество побед O
+	noWin int // == количество ничьих
+	flag bool // == ход игрока; true == x; false == o;
 }
 
 func main() {
 	//инициализация структыр
 	str := new(strData)
+	str.flagIf = false
 
-	// шаирина/длина поля
-	str.rx = 100
-
-	// ход игрока; true == x; false == o;
-	flag := true
-
-	// флаг свободной точки.
-	flagIf := false
-
+	// ширина/длина поля
+	str.rx = 3
 	// количество партий которые хочет сыграть игрок
-	var game int
-	newGame(&game)
+	game := 100
 
 	//узнаёт время в данный момент
 	dt := time.Now()
@@ -54,55 +53,52 @@ func main() {
 	//Включает рандомную функцию
 	rand.Seed(time.Now().UTC().UnixNano())
 
-	// 0 ни кто не выйграл, 1 выйграл Х, 2 выйграл О
-	var flagWin int
-
 	//сколько побед
-	Xwin := 0
-	Owin := 0
-	NoWin := 0
+	str.xWin = 0
+	str.oWin = 0
+	str.noWin = 0
 
 	//запуск всей игры
 	for i := 1; i <= game; i++ {
 		xo := make([]int, str.rx*str.rx)
-		xod(xo, &flag, &flagIf, &flagWin, &NoWin, &Xwin, &Owin, *str)
+		xod(xo, str)
 	}
 
 	// общая статистика в конце игры
 	fmt.Println("Общий результат:")
-	fmt.Println("X:     ", Xwin)
-	fmt.Println("O:     ", Owin)
-	fmt.Println("Ничья: ", NoWin)
+	fmt.Println("X:     ", str.xWin)
+	fmt.Println("O:     ", str.oWin)
+	fmt.Println("Ничья: ", str.noWin)
 	dt1 := time.Now()
 	fmt.Println("Затраченное время на вычисление: ", dt1.Sub(dt))
 }
 
 //xod == основная функция по запуску игры(буду переделывать, заменяя набор переменных на структуры)
-func xod(xo []int, flag *bool, flagIf *bool, flagWin *int, NoWin *int, Xwin *int, Owin *int, str strData) {
+func xod(xo []int, str *strData) {
 	for i := 0; i <= str.rx*str.rx-1; i++ {
 
 		//X == координата точки на поле
 		x := rand.Intn(str.rx*str.rx-1) // рандомная цифра от 0 до RX*RX
-		xoVariant(x, xo, *flagIf, *flag, str) // проверка хода
-		str.winF = win(xo, flagWin, Xwin, Owin, str)     // проверка по вертикали, горизонтали, диагонали на выйгрышь
+		xoVariant(x, xo, *str) // проверка хода
+		str.winF = win(xo, str)     // проверка по вертикали, горизонтали, диагонали на выйгрышь
 		if str.winF >= 1 {
 			i = str.rx*str.rx+1
 
-			viewXo(xo, str)                   // показ поля
+			viewXo(xo, *str)                   // показ поля
 		}
-		playerMove(flag)                 // смена стороны
+		str.flag = playerMove(*str)                 // смена стороны
 		// проверка на ничью, и сброс флага выйгрыша для начала новой партии
-		if *flagWin != 0 {
+		if str.flagWin != 0 {
 			fmt.Println("Действительно выйграл, выходим")
 			i = str.rx*str.rx+1
 		}
-		if *flagWin == 0 && i == str.rx*str.rx-1 {
+		if str.flagWin == 0 && i == str.rx*str.rx-1 {
 
 			fmt.Println("Похоже ни кто не выйграл")
-			viewXo(xo, str)                   // показ поля
-			*NoWin++
+			viewXo(xo, *str)                   // показ поля
+			str.noWin++
 		}
-		*flagWin = 0 //сброс значения
+		str.flagWin = 0 //сброс значения
 	}
 }
 
@@ -120,32 +116,32 @@ func viewXo(xo []int, str strData) {
 }
 
 //playerMove == смена хода
-func playerMove(flag *bool) {
-	if *flag {
-		*flag = false
+func playerMove(str strData)bool{
+	if str.flag {
+		return false
 	} else {
-		*flag = true
+		return true
 	}
 }
 
 // ход на поле
 // проверка чей ход
-func xoVariant(x int, xo []int, flagIf bool, flag bool, str strData) {
-	xoCor(xo, x, &flagIf, flag, str)
-	flagIf = false
+func xoVariant(x int, xo []int, str strData) {
+	xoCor(xo, x, str)
+	str.flagIf = false
 }
 
 // проверка был ли уже ход в данной точке
 // REVIEW: высокая цикломатика (6, надо 5 и меньше)
 // не знаю как цикломатику уменьшить в данном случае, описал подробно каждую строку кода тут
-func xoCor(xo []int, x int, flagIf *bool, flag bool, str strData) {
+func xoCor(xo []int, x int, str strData) {
 	for i := 0; i <= 2; i++ { // повторяет цикл бесконечно пока точка на поле не будет пустой
 		if xo[x] == 0 {
-			*flagIf = true // true == подтверждение пустой точки
+			str.flagIf = true // true == подтверждение пустой точки
 			i = 5          // чтоб окончился цикл
-			f(flag, xo, x) // присвоение точке значения 1 или 2
+			f(xo, x, str) // присвоение точке значения 1 или 2
 		}
-		if !*flagIf {
+		if !str.flagIf {
 			x = rand.Intn(str.rx*str.rx) // сразу даёт рандомное значение
 			i = 0            // для повторения цикла
 		}
@@ -153,37 +149,32 @@ func xoCor(xo []int, x int, flagIf *bool, flag bool, str strData) {
 }
 
 //f == присвоение точки на поле значение X или O
-func f(flag bool, xo []int, x int) {
-	if flag { //ход X
+func f(xo []int, x int, str strData) {
+	if str.flag { //ход X
 		xo[x] = 1
 	}
-	if !flag { //ход O
+	if !str.flag { //ход O
 		xo[x] = 2
 	}
 }
 
-//проверка совпадений линий
-// REVIEW: высокая цикломатика (12, надо 5 и меньше)
-// REVIEW: зачем Xwin и Owin с заглавной? Названияя
-//  параметров должны быть с нижнего регистра и это
-//  не единственное место.
-
-func win(xo []int, flagWin *int, Xwin *int, Owin *int, str strData)int{
+//win == проверка совпадений линий
+func win(xo []int, str *strData)int{
 	for i := 1; i <= 2; i++ {
 		str.unit = i
-		flagWin := winDiag1(str, xo) + winDiag2(str, xo) + winVertic(str, xo) + winGoriz(str, xo)
+		str.flagWin = winDiag1(*str, xo) + winDiag2(*str, xo) + winVertic(*str, xo) + winGoriz(*str, xo)
 		if i == 1 {
-			if flagWin >= 1 {
+			if str.flagWin >= 1 {
 				fmt.Println("Победа ", str.unit)
-				*Xwin++
+				str.xWin++
 				i = 3
 				return 1
 			}
 		}
 		if i == 2 {
-			if flagWin >= 1 {
+			if str.flagWin >= 1 {
 				fmt.Println("Победа ", str.unit)
-				*Owin++
+				str.oWin++
 				i = 3
 				return 1
 			}
@@ -253,20 +244,4 @@ func winDiag2 (str strData, xo []int)int{
 	}
 	str.check1 = 0
 	return 0
-}
-
-func newGame(game *int) {
-	//var st string
-
-	// REVIEW: необработанное исключение!
-
-	//перестала работать на моём ПК
-	/*fmt.Fscan(os.Stdin, &st)
-
-	i1, err := strconv.Atoi(st)
-	if err == nil {
-		*game = i1
-	}
-	*/
-	*game = 2
 }
