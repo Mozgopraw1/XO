@@ -35,6 +35,8 @@ type strData struct {
 	oWin int 	// == количество побед O
 	noWin int 	// == количество ничьих
 	flag bool 	// == ход игрока; true == x; false == o;
+	game int	// == количество партий
+	err error  // == ошибки, для обработки.
 }
 
 func main() {
@@ -45,10 +47,7 @@ func main() {
 	// ширина/длина поля
 	str.rx = 3
 	// количество партий которые хочет сыграть игрок
-	game := 100
-
-	//узнаёт время в данный момент
-	dt := time.Now()
+	str.game = 100
 
 	//Включает рандомную функцию
 	rand.Seed(time.Now().UTC().UnixNano())
@@ -58,8 +57,14 @@ func main() {
 	str.oWin = 0
 	str.noWin = 0
 
+	//ввод основных данных о игре
+	str.err = newGame(str)
+
+	//узнаёт время в данный момент
+	dt := time.Now()
+
 	//запуск всей игры
-	for i := 1; i <= game; i++ {
+	for i := 1; i <= str.game; i++ {
 		xo := make([]int, str.rx*str.rx)
 		xod(xo, str)
 	}
@@ -99,6 +104,20 @@ func xod(xo []int, str *strData) {
 			str.noWin++
 		}
 		str.flagWin = 0 			//сброс значения
+	}
+}
+
+//newGame == ввод основных данных об игре
+func newGame (str *strData)error{
+	fmt.Println("Привет, какой ширины/длины ты хочешь поле?")
+	_, err := fmt.Scan(&str.rx)
+	if err != nil {
+		return err
+	}
+	fmt.Println("А сколько партий ты желаешь сыграть?")
+	_, err = fmt.Scan(&str.game)
+	if err != nil {
+		return err
 	}
 }
 
