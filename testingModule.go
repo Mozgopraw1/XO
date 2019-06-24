@@ -27,87 +27,89 @@ func main() {
 		xo[1] = 1
 		xo[2] = 0
 		xo[3] = 0
-		xo[4] = 0
+		xo[4] = 1
 		xo[5] = 0
 		xo[6] = 0
 		xo[7] = 1
 		xo[8] = 0
-		var check1 int
 		//выполнения функции
 		//flagWinG := winGoriz(rx, xo, check1)
 		//fmt.Println(flagWinG)
 		viewXO(xo, *str)
-		flagWinD1 := winDiag1(*str, xo, check1)
+		flagWinD1 := winDiag1(*str, xo)
 		fmt.Println("flagWinD1: ", flagWinD1)
-		flagWinD2 := winDiag2(*str, xo, check1)
+		flagWinD2 := winDiag2(*str, xo)
 		fmt.Println("flagWinD2: ", flagWinD2)
-		flagWinV := winVertic(*str, xo, check1)
+		flagWinV := winVertic(*str, xo)
 		fmt.Println("flagWinV: ", flagWinV)
-		flagWinG := winGoriz(*str, xo, check1)
+		flagWinG := winGoriz(*str, xo)
 		fmt.Println("flagWinG: ", flagWinG)
 	}
 }
 
+//Выйгрыш
+func win(str strData, xo []int){
+
+}
 //winGoriz == выполнение сравнений по горизонтали на выйгрыш
-func winGoriz(str strData, xo []int, check1 int)int{
+func winGoriz(str strData, xo []int)int{
 	a := 0
 	for i := 0; i <= str.rx-1; i++ {
 		for k := 0; k <= str.rx-1; k++ {
-			if xo[a] == 1 {check1++}
+			if xo[a] == 1 {str.check1++}
 			a++
 		}
-		if check1 == str.rx {
+		if str.check1 == str.rx {
 			return 1
 		}
-		check1 = 0
-		//НЕТ, показывает список
+		str.check1 = 0
 	}
 	return 0
 }
 
 //winVertic == выполнение сравнений по вертикали на выйгрыш
-func winVertic(str strData, xo []int, check1 int)int{
+func winVertic(str strData, xo []int)int{
 	a := 0
 	for i:= 0; i <= str.rx-1; i++ {
 		for k :=0; k <= str.rx-1; k++ {
-			if xo[a] == 1 {check1++}
+			if xo[a] == 1 {str.check1++}
 			a = a+str.rx
 		}
-		if check1 == str.rx {
+		if str.check1 == str.rx {
 			return 1
 		}
-		check1 = 0
+		str.check1 = 0
 		a = i+1
 	}
 	return 0
 }
 
 //winDiag1 == выполнение сравнения по диагонали сверху в низ слева на право
-func winDiag1(str strData, xo []int, check1 int)int{
+func winDiag1(str strData, xo []int)int{
 	a := 0
 	for i:=0; i <=str.rx-1; i++ {
-		if xo[a] == 1 {check1++}
+		if xo[a] == 1 {str.check1++}
 
 		a = a+str.rx+1
 	}
-	if check1 == str.rx{
+	if str.check1 == str.rx{
 		return 1
 	}
-	check1 = 0
+	str.check1 = 0
 	return 0
 }
 
 //winDiag2 == выполнение сравнения по диагонали сверху в низ справа на лево
-func winDiag2 (str strData, xo []int, check1 int)int{
+func winDiag2 (str strData, xo []int)int{
 	a := str.rx-1
 	for i:=0; i <=str.rx-1; i++ {
-		if xo[a] == 1 {check1++}
+		if xo[a] == 1 {str.check1++}
 		a = a+str.rx-1
 	}
-	if check1 == str.rx {
+	if str.check1 == str.rx {
 		return 1
 	}
-	check1 = 0
+	str.check1 = 0
 	return 0
 }
 

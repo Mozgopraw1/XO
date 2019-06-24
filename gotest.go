@@ -24,11 +24,15 @@ import (
 // Хорошо
 
 func main() {
+	// структура данных.
+	type strData struct {
+		rx int	// == ширина/длина поля
+		check1 int	// == временная перемення в winD,V,G
+	}
+
+
 	// длина стороны поля
 	rx := 3
-	type OneSt struct {
-
-	}
 	// ход игрока; true == x; false == o;
 	flag := true
 
@@ -190,39 +194,6 @@ func win(xo []int, flagWin *int, Xwin *int, Owin *int) {
 		*Owin++
 	}
 }
-
-//winVertic == выполнение сравнений по вертикали на выйгрыш
-func winVertic(rx int, xo []int, check1 int)int{
-	a := 0
-	for i:= 0; i <= rx-1; i++ {
-		for k :=0; k <= rx-1; k++ {
-			if xo[a] == 1 {check1++}
-
-			//НЕТ
-			fmt.Println("a: ", a, "check1: ", check1)
-			a = a+rx
-		}
-		if check1 == rx {
-			return 1
-		}
-		check1 = 0
-		a = i+1
-		viewXo(xo, rx)
-	}
-	return 0
-}
-
-// winGorriz == выйгрыш по горизонтали
-/*func winGoriz(rx int, xo []int, check1 int) {
-	for i := 0; i <= rx; i++ {
-		for k := 0; k <= rx; i++ {
-			if xo[k] == 1 {check1++}
-		}
-		check1 = 0
-		a := +rx
-	}
-}
-*/
 
 func newGame(game *int) {
 	fmt.Println("Приветствую тебя в игре XO, сколько желаешь сыграть партий?")
