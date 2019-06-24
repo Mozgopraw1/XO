@@ -25,16 +25,16 @@ import (
 
 // структура данных.
 type strData struct {
-	rx int	// == ширина/длина поля
+	rx int		// == ширина/длина поля
 	check1 int	// == временная перемення в winD,V,G
-	unit int // == крестик или нолик (1 или 2)
-	winF int // == win передача флага об проверке
+	unit int 	// == крестик или нолик (1 или 2)
+	winF int 	// == win передача флага об проверке
 	flagIf bool // == флаг свободной точки
 	flagWin int // == 0 ни кто не выйграл, 1 выйграл Х, 2 выйграл О
-	xWin int // == количество побед X
-	oWin int // == количество побед O
-	noWin int // == количество ничьих
-	flag bool // == ход игрока; true == x; false == o;
+	xWin int 	// == количество побед X
+	oWin int 	// == количество побед O
+	noWin int 	// == количество ничьих
+	flag bool 	// == ход игрока; true == x; false == o;
 }
 
 func main() {
@@ -79,14 +79,14 @@ func xod(xo []int, str *strData) {
 
 		//X == координата точки на поле
 		x := rand.Intn(str.rx*str.rx-1) // рандомная цифра от 0 до RX*RX
-		xoVariant(x, xo, *str) // проверка хода
+		xoVariant(x, xo, *str) 		// проверка хода
 		str.winF = win(xo, str)     // проверка по вертикали, горизонтали, диагонали на выйгрышь
 		if str.winF >= 1 {
 			i = str.rx*str.rx+1
-
-			viewXo(xo, *str)                   // показ поля
+			viewXo(xo, *str)        // показ поля
 		}
-		str.flag = playerMove(*str)                 // смена стороны
+		str.flag = playerMove(*str) // смена стороны
+
 		// проверка на ничью, и сброс флага выйгрыша для начала новой партии
 		if str.flagWin != 0 {
 			fmt.Println("Действительно выйграл, выходим")
@@ -95,10 +95,10 @@ func xod(xo []int, str *strData) {
 		if str.flagWin == 0 && i == str.rx*str.rx-1 {
 
 			fmt.Println("Похоже ни кто не выйграл")
-			viewXo(xo, *str)                   // показ поля
+			viewXo(xo, *str)        // показ поля
 			str.noWin++
 		}
-		str.flagWin = 0 //сброс значения
+		str.flagWin = 0 			//сброс значения
 	}
 }
 
@@ -125,25 +125,26 @@ func playerMove(str strData)bool{
 }
 
 // ход на поле
-// проверка чей ход
+// xoVariant == проверка чей ход
 func xoVariant(x int, xo []int, str strData) {
 	xoCor(xo, x, str)
 	str.flagIf = false
 }
 
-// проверка был ли уже ход в данной точке
+// xoCor == проверка был ли уже ход в данной точке
 // REVIEW: высокая цикломатика (6, надо 5 и меньше)
 // не знаю как цикломатику уменьшить в данном случае, описал подробно каждую строку кода тут
+// если разделять данную функцию, то я уже потеряю смысл её.
 func xoCor(xo []int, x int, str strData) {
 	for i := 0; i <= 2; i++ { // повторяет цикл бесконечно пока точка на поле не будет пустой
 		if xo[x] == 0 {
 			str.flagIf = true // true == подтверждение пустой точки
-			i = 5          // чтоб окончился цикл
-			f(xo, x, str) // присвоение точке значения 1 или 2
+			i = 5       	  // чтоб окончился цикл
+			f(xo, x, str) 	  // присвоение точке значения 1 или 2
 		}
 		if !str.flagIf {
 			x = rand.Intn(str.rx*str.rx) // сразу даёт рандомное значение
-			i = 0            // для повторения цикла
+			i = 0             // для повторения цикла
 		}
 	}
 }
