@@ -23,23 +23,28 @@ func main() {
 		//изначальный данные
 		str.rx = 3
 		xo := make([]int, str.rx*str.rx)
-		xo[0] = 1
+		xo[0] = 0
 		xo[1] = 1
-		xo[2] = 1
-		xo[3] = 1
-		xo[4] = 1
-		xo[5] = 1
-		xo[6] = 1
+		xo[2] = 0
+		xo[3] = 0
+		xo[4] = 0
+		xo[5] = 0
+		xo[6] = 0
 		xo[7] = 1
-		xo[8] = 2
+		xo[8] = 0
 		var check1 int
 		//выполнения функции
 		//flagWinG := winGoriz(rx, xo, check1)
 		//fmt.Println(flagWinG)
-		flagWinD1 := winDiag1(str.rx, xo, check1)
+		viewXO(xo, *str)
+		flagWinD1 := winDiag1(*str, xo, check1)
 		fmt.Println("flagWinD1: ", flagWinD1)
-		flagWinD2 := winDiag2(str.rx, xo, check1)
+		flagWinD2 := winDiag2(*str, xo, check1)
 		fmt.Println("flagWinD2: ", flagWinD2)
+		flagWinV := winVertic(*str, xo, check1)
+		fmt.Println("flagWinV: ", flagWinV)
+		flagWinG := winGoriz(*str, xo, check1)
+		fmt.Println("flagWinG: ", flagWinG)
 	}
 }
 
@@ -50,16 +55,12 @@ func winGoriz(str strData, xo []int, check1 int)int{
 		for k := 0; k <= str.rx-1; k++ {
 			if xo[a] == 1 {check1++}
 			a++
-			//НЕТ
-			fmt.Println("a: ", a)
 		}
-		fmt.Println(check1)
 		if check1 == str.rx {
 			return 1
 		}
 		check1 = 0
 		//НЕТ, показывает список
-		viewXo(xo, str.rx)
 	}
 	return 0
 }
@@ -70,9 +71,6 @@ func winVertic(str strData, xo []int, check1 int)int{
 	for i:= 0; i <= str.rx-1; i++ {
 		for k :=0; k <= str.rx-1; k++ {
 			if xo[a] == 1 {check1++}
-
-			//НЕТ
-			fmt.Println("a: ", a, "check1: ", check1)
 			a = a+str.rx
 		}
 		if check1 == str.rx {
@@ -80,7 +78,6 @@ func winVertic(str strData, xo []int, check1 int)int{
 		}
 		check1 = 0
 		a = i+1
-		viewXo(xo, str.rx)
 	}
 	return 0
 }
@@ -97,7 +94,6 @@ func winDiag1(str strData, xo []int, check1 int)int{
 		return 1
 	}
 	check1 = 0
-	viewXo(xo, str.rx)
 	return 0
 }
 
@@ -112,13 +108,11 @@ func winDiag2 (str strData, xo []int, check1 int)int{
 		return 1
 	}
 	check1 = 0
-	viewXo(xo, str.rx)
 	return 0
 }
 
 
-
-func viewXo(xo []int, str strData) {
+func viewXO(xo []int, str strData) {
 	t := 0
 	for i:=0; i<=str.rx-1; i++ {
 		for k:=0; k<=str.rx-1; k++ {
