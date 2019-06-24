@@ -48,8 +48,16 @@ func main() {
 }
 
 //Выйгрыш
-func win(str strData, xo []int){
-
+func winX(str strData, xo []int){
+	viewXO(xo, str)
+	flagWinD1 := winDiag1(str, xo)
+	fmt.Println("flagWinD1: ", flagWinD1)
+	flagWinD2 := winDiag2(str, xo)
+	fmt.Println("flagWinD2: ", flagWinD2)
+	flagWinV := winVertic(str, xo)
+	fmt.Println("flagWinV: ", flagWinV)
+	flagWinG := winGoriz(str, xo)
+	fmt.Println("flagWinG: ", flagWinG)
 }
 //winGoriz == выполнение сравнений по горизонтали на выйгрыш
 func winGoriz(str strData, xo []int)int{

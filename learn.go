@@ -32,6 +32,14 @@ func main(){
 	sl8 := a[:]
 	a[1] = 8
 	fmt.Println("слайс из массивы", sl8)
+	flagIf := true
+	var x int
+	var i int
+	if !flagIf {
+		x = rand.Intn(9) // сразу даёт рандомное значение
+		i = 0            // для повторения цикла
+	}
+	fmt.Println (flagIf, x, i )
 	return
 
 }

@@ -23,16 +23,21 @@ import (
 
 // Хорошо
 
+// структура данных.
+type strData struct {
+	rx int	// == ширина/длина поля
+	check1 int	// == временная перемення в winD,V,G
+	unit int // == крестик или нолик (1 или 2)
+	winF int // == win передача флага об проверке
+}
+
 func main() {
-	// структура данных.
-	type strData struct {
-		rx int	// == ширина/длина поля
-		check1 int	// == временная перемення в winD,V,G
-	}
+	//инициализация структыр
+	str := new(strData)
 
+	// шаирина/длина поля
+	str.rx = 100
 
-	// длина стороны поля
-	rx := 3
 	// ход игрока; true == x; false == o;
 	flag := true
 
@@ -59,8 +64,8 @@ func main() {
 
 	//запуск всей игры
 	for i := 1; i <= game; i++ {
-		xo := make([]int, rx*rx)
-		xod(xo, &flag, &flagIf, &flagWin, &NoWin, &Xwin, &Owin, rx)
+		xo := make([]int, str.rx*str.rx)
+		xod(xo, &flag, &flagIf, &flagWin, &NoWin, &Xwin, &Owin, *str)
 	}
 
 	// общая статистика в конце игры
@@ -73,34 +78,39 @@ func main() {
 }
 
 //xod == основная функция по запуску игры(буду переделывать, заменяя набор переменных на структуры)
-func xod(xo []int, flag *bool, flagIf *bool, flagWin *int, NoWin *int, Xwin *int, Owin *int, rx int) {
-	for i := 0; i <= 8; i++ {
+func xod(xo []int, flag *bool, flagIf *bool, flagWin *int, NoWin *int, Xwin *int, Owin *int, str strData) {
+	for i := 0; i <= str.rx*str.rx-1; i++ {
 
 		//X == координата точки на поле
-		x := rand.Intn(8) // рандомная цифра от 0 до 8
+		x := rand.Intn(str.rx*str.rx-1) // рандомная цифра от 0 до RX*RX
+		xoVariant(x, xo, *flagIf, *flag, str) // проверка хода
+		str.winF = win(xo, flagWin, Xwin, Owin, str)     // проверка по вертикали, горизонтали, диагонали на выйгрышь
+		if str.winF >= 1 {
+			i = str.rx*str.rx+1
 
-		xoVariant(x, xo, *flagIf, *flag) // проверка хода
-		viewXo(xo, rx)                   // показ поля
-		win(xo, flagWin, Xwin, Owin)     // проверка по вертикали, горизонтали, диагонали на выйгрышь
+			viewXo(xo, str)                   // показ поля
+		}
 		playerMove(flag)                 // смена стороны
 		// проверка на ничью, и сброс флага выйгрыша для начала новой партии
 		if *flagWin != 0 {
 			fmt.Println("Действительно выйграл, выходим")
-			i = 9
-			*flagWin = 0 //сброс значения
+			i = str.rx*str.rx+1
 		}
-		if *flagWin == 0 && i == 8 {
+		if *flagWin == 0 && i == str.rx*str.rx-1 {
+
 			fmt.Println("Похоже ни кто не выйграл")
+			viewXo(xo, str)                   // показ поля
 			*NoWin++
 		}
+		*flagWin = 0 //сброс значения
 	}
 }
 
 //viewXo == вывод поля в консоль
-func viewXo(xo []int, rx int) {
+func viewXo(xo []int, str strData) {
 	t := 0
-	for i := 0; i <= rx-1; i++ {
-		for k := 0; k <= rx-1; k++ {
+	for i := 0; i <= str.rx-1; i++ {
+		for k := 0; k <= str.rx-1; k++ {
 			fmt.Print(xo[t], " ")
 			t++
 		}
@@ -120,15 +130,15 @@ func playerMove(flag *bool) {
 
 // ход на поле
 // проверка чей ход
-func xoVariant(x int, xo []int, flagIf bool, flag bool) {
-	xoCor(xo, x, &flagIf, flag)
+func xoVariant(x int, xo []int, flagIf bool, flag bool, str strData) {
+	xoCor(xo, x, &flagIf, flag, str)
 	flagIf = false
 }
 
 // проверка был ли уже ход в данной точке
 // REVIEW: высокая цикломатика (6, надо 5 и меньше)
 // не знаю как цикломатику уменьшить в данном случае, описал подробно каждую строку кода тут
-func xoCor(xo []int, x int, flagIf *bool, flag bool) {
+func xoCor(xo []int, x int, flagIf *bool, flag bool, str strData) {
 	for i := 0; i <= 2; i++ { // повторяет цикл бесконечно пока точка на поле не будет пустой
 		if xo[x] == 0 {
 			*flagIf = true // true == подтверждение пустой точки
@@ -136,7 +146,7 @@ func xoCor(xo []int, x int, flagIf *bool, flag bool) {
 			f(flag, xo, x) // присвоение точке значения 1 или 2
 		}
 		if !*flagIf {
-			x = rand.Intn(9) // сразу даёт рандомное значение
+			x = rand.Intn(str.rx*str.rx) // сразу даёт рандомное значение
 			i = 0            // для повторения цикла
 		}
 	}
@@ -158,45 +168,94 @@ func f(flag bool, xo []int, x int) {
 //  параметров должны быть с нижнего регистра и это
 //  не единственное место.
 
-func win(xo []int, flagWin *int, Xwin *int, Owin *int) {
+func win(xo []int, flagWin *int, Xwin *int, Owin *int, str strData)int{
 	for i := 1; i <= 2; i++ {
-		if xo[0]&xo[1]&xo[2] == i {
-			*flagWin = i
+		str.unit = i
+		flagWin := winDiag1(str, xo) + winDiag2(str, xo) + winVertic(str, xo) + winGoriz(str, xo)
+		if i == 1 {
+			if flagWin >= 1 {
+				fmt.Println("Победа ", str.unit)
+				*Xwin++
+				i = 3
+				return 1
+			}
 		}
-		if xo[3]&xo[4]&xo[5] == i {
-			*flagWin = i
-		}
-		if xo[6]&xo[7]&xo[8] == i {
-			*flagWin = i
-		}
-		if xo[0]&xo[3]&xo[6] == i {
-			*flagWin = i
-		}
-		if xo[1]&xo[4]&xo[7] == i {
-			*flagWin = i
-		}
-		if xo[2]&xo[5]&xo[8] == i {
-			*flagWin = i
-		}
-		if xo[0]&xo[4]&xo[8] == i {
-			*flagWin = i
-		}
-		if xo[2]&xo[4]&xo[6] == i {
-			*flagWin = i
+		if i == 2 {
+			if flagWin >= 1 {
+				fmt.Println("Победа ", str.unit)
+				*Owin++
+				i = 3
+				return 1
+			}
 		}
 	}
-	if *flagWin == 1 {
-		fmt.Println("Победа X")
-		*Xwin++
+	return 0
+}
+
+// функции сравнения по всем линиям
+// winGoriz == выполнение сравнений по горизонтали на выйгрыш
+func winGoriz(str strData, xo []int)int{
+	a := 0
+	for i := 0; i <= str.rx-1; i++ {
+		for k := 0; k <= str.rx-1; k++ {
+			if xo[a] == str.unit {str.check1++}
+			a++
+		}
+		if str.check1 == str.rx {
+			return 1
+		}
+		str.check1 = 0
 	}
-	if *flagWin == 2 {
-		fmt.Println("Победа O")
-		*Owin++
+	return 0
+}
+
+//winVertic == выполнение сравнений по вертикали на выйгрыш
+func winVertic(str strData, xo []int)int{
+	a := 0
+	for i:= 0; i <= str.rx-1; i++ {
+		for k :=0; k <= str.rx-1; k++ {
+			if xo[a] == str.unit {str.check1++}
+			a = a+str.rx
+		}
+		if str.check1 == str.rx {
+			return 1
+		}
+		str.check1 = 0
+		a = i+1
 	}
+	return 0
+}
+
+//winDiag1 == выполнение сравнения по диагонали сверху в низ слева на право
+func winDiag1(str strData, xo []int)int{
+	a := 0
+	for i:=0; i <=str.rx-1; i++ {
+		if xo[a] == str.unit {str.check1++}
+
+		a = a+str.rx+1
+	}
+	if str.check1 == str.rx{
+		return 1
+	}
+	str.check1 = 0
+	return 0
+}
+
+//winDiag2 == выполнение сравнения по диагонали сверху в низ справа на лево
+func winDiag2 (str strData, xo []int)int{
+	a := str.rx-1
+	for i:=0; i <=str.rx-1; i++ {
+		if xo[a] == str.unit {str.check1++}
+		a = a+str.rx-1
+	}
+	if str.check1 == str.rx {
+		return 1
+	}
+	str.check1 = 0
+	return 0
 }
 
 func newGame(game *int) {
-	fmt.Println("Приветствую тебя в игре XO, сколько желаешь сыграть партий?")
 	//var st string
 
 	// REVIEW: необработанное исключение!
@@ -209,5 +268,5 @@ func newGame(game *int) {
 		*game = i1
 	}
 	*/
-	*game = 100
+	*game = 2
 }
