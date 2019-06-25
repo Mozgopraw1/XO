@@ -126,7 +126,7 @@ func viewXo(xo []int, str strData) {
 	t := 0
 	for i := 0; i <= str.rx-1; i++ {
 		for k := 0; k <= str.rx-1; k++ {
-			viewXoEnd(xo, str, t)
+			viewXoEnd(xo, t)
 			t++
 		}
 		fmt.Println(" ")
@@ -135,7 +135,7 @@ func viewXo(xo []int, str strData) {
 }
 
 //vievXoEnd == замена 1 и 2 на X и O
-func viewXoEnd(xo []int, str strData, t int) {
+func viewXoEnd(xo []int, t int) {
 	if xo[t] == 0 { fmt.Print("_ ")}
 	if xo[t] == 1 { fmt.Print("X ")}
 	if xo[t] == 2 { fmt.Print("O ")}
