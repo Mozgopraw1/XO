@@ -36,7 +36,7 @@ type strData struct {
 	noWin int 	// == количество ничьих
 	flag bool 	// == ход игрока; true == x; false == o;
 	game int	// == количество партий
-	err error  // == ошибки, для обработки.
+	err error   // == ошибки, для обработки.
 }
 
 func main() {
