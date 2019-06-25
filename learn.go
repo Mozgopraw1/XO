@@ -177,5 +177,44 @@ func control() {
 		println("range map by val", val)
 	}
 
+	// операция switch
+	mm["firstName"] = "Vasily"
+	mm["flag"] = "No"
+	switch mm["firstName"] {
+	case "Vasily", "Evgeny":
+		println("switch - name is Vasily")
+		// в отличии от других языков  - не переходим в другой вариант по умолчанию
+		mm["firstName"] = "Petr"
+		fallthrough
+		case "Petr":
+			if mm["flag"] == "Ok" {
+				break // выходим из switch, чтобы не выполнять переход в другой вариант
+			}
+			println("switch - name is Petr")
+			//переход к слеюущему варианту
+			fallthrough // переходим в следующий вариант
+	default:
+		println("switch - some other name")
+		mm["firstName"] = "Vasily"
+	}
+
+	// как замена можественным if else
+	switch {
+	case mm["firstName"] == "Vasily":
+		println("switch2 - Vasily")
+	case mm["lastName"] == "Romanov":
+		println("switch2 - Romanov")
+	}
+
+	//выходим из цикла ьудучи внутри switch
+	Loop:
+		for key, val := range mm{
+			println("switch in loop", key, val)
+			switch {
+			case key == "firstName" && val == "Vasily":
+				println("switch - break loop here")
+				break Loop
+			}
+		}
 	return
 }
