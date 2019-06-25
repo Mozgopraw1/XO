@@ -7,8 +7,9 @@ import (
 )
 
 func main() {
-	test()
-	control()
+	// test()
+	// control()
+	unicodeLearn()
 }
 func test() {
 	// Эту вот строку не в коем случае не надо вставлять
@@ -216,5 +217,34 @@ func control() {
 				break Loop
 			}
 		}
+	return
+}
+
+func unicodeLearn(){
+	var symbol rune = 'a'
+	var autoSymbol = 'a'
+	unicodeSymbol := '⌘'
+	unicodeSymbolByNumber := '\u2318'
+	println(symbol, autoSymbol, unicodeSymbol, unicodeSymbolByNumber)
+
+	str1 := "Привет, Мир!"
+	fmt.Println("ru: ", str1, len(str1))
+	for index, runeValue := range str1 {
+		fmt.Printf("%#U at position %d\n", runeValue, index)
+	}
+
+	str2 := "Тест"
+	fmt.Println("cn: ", str2, len(str2))
+	for index, runeValue := range str2 {
+		fmt.Printf("%#U at position %d\n", runeValue, index)
+	}
+	println(str2[1])
+
+	bin := []byte(str2)
+	fmt.Println("binary cn: ", bin, len(bin))
+	for idx, val := range bin {
+		fmt.Printf("raw binary idx: %v, oct: %v, hex: %x\n", idx, val, val)
+	}
+
 	return
 }
