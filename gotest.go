@@ -94,7 +94,6 @@ func xod(xo []int, str *strData) {
 
 		// проверка на ничью, и сброс флага выйгрыша для начала новой партии
 		if str.flagWin != 0 {
-			fmt.Println("Действительно выйграл, выходим")
 			i = str.rx*str.rx+1
 		}
 		if str.flagWin == 0 && i == str.rx*str.rx-1 {
@@ -119,6 +118,7 @@ func newGame (str *strData)error{
 	if err != nil {
 		return err
 	}
+	return str.err
 }
 
 //viewXo == вывод поля в консоль
@@ -126,12 +126,19 @@ func viewXo(xo []int, str strData) {
 	t := 0
 	for i := 0; i <= str.rx-1; i++ {
 		for k := 0; k <= str.rx-1; k++ {
-			fmt.Print(xo[t], " ")
+			viewXoEnd(xo, str, t)
 			t++
 		}
 		fmt.Println(" ")
 	}
 	fmt.Println(" ")
+}
+
+//vievXoEnd == замена 1 и 2 на X и O
+func viewXoEnd(xo []int, str strData, t int) {
+	if xo[t] == 0 { fmt.Print("_ ")}
+	if xo[t] == 1 { fmt.Print("X ")}
+	if xo[t] == 2 { fmt.Print("O ")}
 }
 
 //playerMove == смена хода
@@ -185,7 +192,7 @@ func win(xo []int, str *strData)int{
 		str.flagWin = winDiag1(*str, xo) + winDiag2(*str, xo) + winVertic(*str, xo) + winGoriz(*str, xo)
 		if i == 1 {
 			if str.flagWin >= 1 {
-				fmt.Println("Победа ", str.unit)
+				winView(str)
 				str.xWin++
 				i = 3
 				return 1
@@ -193,7 +200,7 @@ func win(xo []int, str *strData)int{
 		}
 		if i == 2 {
 			if str.flagWin >= 1 {
-				fmt.Println("Победа ", str.unit)
+				winView(str)
 				str.oWin++
 				i = 3
 				return 1
@@ -201,6 +208,16 @@ func win(xo []int, str *strData)int{
 		}
 	}
 	return 0
+}
+
+// winView == показ победы
+func winView(str *strData){
+	if str.unit == 1 {
+		fmt.Println("Победа X")
+	}
+	if str.unit == 2 {
+		fmt.Println("Победа O")
+	}
 }
 
 // функции сравнения по всем линиям
