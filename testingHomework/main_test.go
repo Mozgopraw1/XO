@@ -38,7 +38,7 @@ func TestIntSliceToString(t *testing.T) {
 		t.Error("expected", expected, "have", result)
 	}
 }
-/*
+
 func TestMergeSlices(t *testing.T) {
 	expected := []int{1, 2, 3, 4, 5}
 	result := MergeSlices([]float32{1.1, 2.1, 3.1}, []int32{4, 5})
@@ -46,7 +46,6 @@ func TestMergeSlices(t *testing.T) {
 		t.Error("expected", expected, "have", result)
 	}
 }
-
 func TestGetMapValuesSortedByKey(t *testing.T) {
 
 	var cases = []struct {
@@ -107,4 +106,3 @@ func TestGetMapValuesSortedByKey(t *testing.T) {
 		}
 	}
 }
-*/

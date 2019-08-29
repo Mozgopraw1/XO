@@ -1,19 +1,10 @@
 package main
 
 import (
-	"fmt"
 	"strconv"
 )
 
 func main() {
-	fmt.Println("test")
-	td := make([]int, 2)
-	td[0] = 16
-	td[1] = 256
-	td[2] = 24
-	var test2 string
-	test2 = IntSliceToString(td)
-	fmt.Println(test2)
 }
 
 func ReturnInt() int {
@@ -35,7 +26,27 @@ func ReturnIntSlice() []int{
 func IntSliceToString(td[]int) string{
 	var result string
 	for i:=0; i<=2; i++ {
-		result = strconv.Itoa(td[i])
+		result = result+strconv.Itoa(td[i])
 	}
 	return result
+}
+
+func MergeSlices(sl1[]float32, sl2[]int32) []int{
+	var result []int
+	len1 := len(sl1)
+	len2 := len(sl2)
+	for i:=0; i<=len1-1; i++{
+		result = append(result, (int(sl1[i])))
+	}
+	for i:=0; i<=len2-1; i++{
+		result = append(result, (int(sl2[i])))
+	}
+	return result
+}
+
+func GetMapValuesSortedByKey(map[int]string) {
+	for i:=0;i<11;i++{
+		map[int]string
+	}
+	return result[]
 }
