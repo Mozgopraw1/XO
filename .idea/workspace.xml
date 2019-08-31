@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="6e947b60-a04f-4c82-a0d6-8c47328792a8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/testingHomework/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/testingHomework/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testingHomework/main_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/testingHomework/main_test.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -55,7 +53,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Go Test.TestMergeSlices in github.com/krocos/XO/testingHomework">
+  <component name="RunManager" selected="Go Test.TestGetMapValuesSortedByKey in github.com/krocos/XO/testingHomework">
     <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="XO" />
       <working_directory value="$PROJECT_DIR$" />
@@ -63,6 +61,17 @@
       <filePath value="$PROJECT_DIR$/testingHomework/main.go" />
       <package value="github.com/krocos/XO" />
       <directory value="$PROJECT_DIR$/" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestGetMapValuesSortedByKey in github.com/krocos/XO/testingHomework" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="XO" />
+      <working_directory value="$PROJECT_DIR$/testingHomework" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="github.com/krocos/XO/testingHomework" />
+      <directory value="$PROJECT_DIR$/" />
+      <filePath value="$PROJECT_DIR$/" />
+      <pattern value="^TestGetMapValuesSortedByKey$" />
       <method v="2" />
     </configuration>
     <configuration name="TestMergeSlices in github.com/krocos/XO/testingHomework" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -98,24 +107,13 @@
       <pattern value="^TestReturnInt$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestReturnIntArray in github.com/krocos/XO/testingHomework" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="XO" />
-      <working_directory value="$PROJECT_DIR$/testingHomework" />
-      <framework value="gotest" />
-      <kind value="PACKAGE" />
-      <package value="github.com/krocos/XO/testingHomework" />
-      <directory value="$PROJECT_DIR$/" />
-      <filePath value="$PROJECT_DIR$/" />
-      <pattern value="^TestReturnIntArray$" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Test.TestGetMapValuesSortedByKey in github.com/krocos/XO/testingHomework" />
         <item itemvalue="Go Test.TestMergeSlices in github.com/krocos/XO/testingHomework" />
         <item itemvalue="Go Build.go build main.go" />
         <item itemvalue="Go Test.TestReturnInt in github.com/krocos/XO/testingHomework" />
         <item itemvalue="Go Test.TestReturnFloat in github.com/krocos/XO/testingHomework" />
-        <item itemvalue="Go Test.TestReturnIntArray in github.com/krocos/XO/testingHomework" />
       </list>
     </recent_temporary>
   </component>
@@ -152,5 +150,16 @@
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
     <proxy>direct</proxy>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/testingHomework/main.go</url>
+          <line>34</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

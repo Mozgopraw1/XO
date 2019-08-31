@@ -1,6 +1,7 @@
 package main
 
 import (
+	"sort"
 	"strconv"
 )
 
@@ -44,9 +45,25 @@ func MergeSlices(sl1[]float32, sl2[]int32) []int{
 	return result
 }
 
-func GetMapValuesSortedByKey(map[int]string) {
-	for i:=0;i<11;i++{
-		map[int]string
+func GetMapValuesSortedByKey(in map[int]string) []string{
+	keys := make([]int, 0) // почему здесь 0? Типа длина массива?
+
+	for k := range in {
+		keys = append(keys, k)
 	}
-	return result[]
+
+	sort.Ints(keys) // как работает не знаю
+
+	sorted := make([]string, 0)
+
+	/*
+	тут всё понятно, считывается сортированный массив ключей
+	далее по ключу находит содержимое ключа, и записывает его
+	по порядку в массив содержимого без ключей.
+	*/
+	for _, k := range keys {
+		sorted = append(sorted, in[k])
+	}
+
+	return sorted
 }
