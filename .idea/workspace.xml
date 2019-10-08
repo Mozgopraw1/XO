@@ -64,7 +64,16 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Go Test.TestGetMapValuesSortedByKey in github.com/krocos/XO/testingHomework">
+  <component name="RunManager" selected="Go Build.go build 2.go">
+    <configuration name="go build 2.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="XO" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <filePath value="$PROJECT_DIR$/learning/2/2.go" />
+      <package value="github.com/krocos/XO" />
+      <directory value="$PROJECT_DIR$/" />
+      <method v="2" />
+    </configuration>
     <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="XO" />
       <working_directory value="$PROJECT_DIR$" />
@@ -96,17 +105,6 @@
       <pattern value="^TestMergeSlices$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestReturnFloat in github.com/krocos/XO/testingHomework" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="XO" />
-      <working_directory value="$PROJECT_DIR$/testingHomework" />
-      <framework value="gotest" />
-      <kind value="PACKAGE" />
-      <package value="github.com/krocos/XO/testingHomework" />
-      <directory value="$PROJECT_DIR$/" />
-      <filePath value="$PROJECT_DIR$/" />
-      <pattern value="^TestReturnFloat$" />
-      <method v="2" />
-    </configuration>
     <configuration name="TestReturnInt in github.com/krocos/XO/testingHomework" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="XO" />
       <working_directory value="$PROJECT_DIR$/testingHomework" />
@@ -120,11 +118,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Build.go build 2.go" />
         <item itemvalue="Go Test.TestGetMapValuesSortedByKey in github.com/krocos/XO/testingHomework" />
         <item itemvalue="Go Test.TestMergeSlices in github.com/krocos/XO/testingHomework" />
         <item itemvalue="Go Build.go build main.go" />
         <item itemvalue="Go Test.TestReturnInt in github.com/krocos/XO/testingHomework" />
-        <item itemvalue="Go Test.TestReturnFloat in github.com/krocos/XO/testingHomework" />
       </list>
     </recent_temporary>
   </component>

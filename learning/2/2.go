@@ -1,9 +1,22 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 func main() {
 	showMeTheMoney()
+	fmt.Println("the stuff is ", stuff)
+	myTimer := getTimer()
+	defer myTimer()
+
+	f := func() {
+		myTimer()
+	}
+
+	f()
+	formatPrint()
 }
 
 func showMeTheMoney()  {
@@ -52,4 +65,43 @@ func sumNatural2(stuff ...int) (res int, err error) {
 		res += stuff[i]
 	}
 	return res, err
+}
+
+var stuff = "not ready"
+
+// init - функция выполняющаяся при запуске программы автоматически
+func init() {
+	stuff = "ready"
+}
+
+// getTimer - функция замыкания
+func getTimer() func() {
+	start := time.Now()
+	return func() {
+		fmt.Println("Time from start", time.Since(start))
+	}
+}
+
+
+// formatPrint - тест по форматированиб спецификаторов
+func formatPrint() {
+	t1 := true
+	t2 := false
+	fmt.Printf("тест форматирования boolen t1: %t, t2: = %t \n", t1, t2)
+
+	b1 := 1
+	b2 := 53
+	fmt.Printf("тест форматирования двоичный вывод b1: %b, b2 = %b \n", b1, b2)
+
+	c1 := 'h'
+	c2 := 'д'
+	fmt.Printf("тест форматирования символа в числовой код c1 = %c, c2 = %c \n", c1, c2)
+
+	d1 := 10
+	d2 := 6483
+	fmt.Printf("тест форматирования целых чисел в десятичной системе: d1 = %d, d2 = %d \n", d1, d2)
+
+	o1 := 10
+	o2 := 6483
+	fmt.Printf("тест форматирования целых чисел в восьмиричную систему: o1 = %o, o2 = %o \n", o1, o2)
 }
