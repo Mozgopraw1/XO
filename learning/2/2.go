@@ -9,7 +9,6 @@ func main() {
 	showMeTheMoney()
 	fmt.Println("the stuff is ", stuff)
 	myTimer := getTimer()
-	defer myTimer()
 
 	f := func() {
 		myTimer()
@@ -126,3 +125,4 @@ func formatPrint() {
 	fmt.Printf("тест форматирования строки: s1 = %s, s2 = %s \n", s1, s2)
 
 }
+

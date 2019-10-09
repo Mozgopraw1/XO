@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6e947b60-a04f-4c82-a0d6-8c47328792a8" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/learning/2/defer.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/learning/2/2.go" beforeDir="false" afterPath="$PROJECT_DIR$/learning/2/2.go" afterDir="false" />
     </list>
@@ -64,12 +65,21 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Go Build.go build 2.go">
+  <component name="RunManager" selected="Go Build.go build defer.go">
     <configuration name="go build 2.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="XO" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="FILE" />
       <filePath value="$PROJECT_DIR$/learning/2/2.go" />
+      <package value="github.com/krocos/XO" />
+      <directory value="$PROJECT_DIR$/" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go build defer.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="XO" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <filePath value="$PROJECT_DIR$/learning/2/defer.go" />
       <package value="github.com/krocos/XO" />
       <directory value="$PROJECT_DIR$/" />
       <method v="2" />
@@ -105,24 +115,13 @@
       <pattern value="^TestMergeSlices$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestReturnInt in github.com/krocos/XO/testingHomework" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="XO" />
-      <working_directory value="$PROJECT_DIR$/testingHomework" />
-      <framework value="gotest" />
-      <kind value="PACKAGE" />
-      <package value="github.com/krocos/XO/testingHomework" />
-      <directory value="$PROJECT_DIR$/" />
-      <filePath value="$PROJECT_DIR$/" />
-      <pattern value="^TestReturnInt$" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Build.go build defer.go" />
         <item itemvalue="Go Build.go build 2.go" />
         <item itemvalue="Go Test.TestGetMapValuesSortedByKey in github.com/krocos/XO/testingHomework" />
         <item itemvalue="Go Test.TestMergeSlices in github.com/krocos/XO/testingHomework" />
         <item itemvalue="Go Build.go build main.go" />
-        <item itemvalue="Go Test.TestReturnInt in github.com/krocos/XO/testingHomework" />
       </list>
     </recent_temporary>
   </component>
